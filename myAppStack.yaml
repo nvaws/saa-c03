@@ -1,0 +1,206 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: This template will create the Application VMs and related Infrastructure for the Lab01 sample application. Instances are created in Public Subnets. Application VMs have public IPs and use Internet Gateway for inbound as well as Outbound trafic.
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      -
+        Label:
+          default: "Application Configuration"
+        Parameters:
+          - Environment
+          - MinSize
+          - MaxSize
+          - DesiredCapacity
+          - LatestAmazonLinux2
+          - KeyPair
+
+Parameters:
+  Environment:
+    Type: String
+    Description: Type of environment to provision
+    Default: DEV
+    AllowedValues:
+      - DEV
+      - TEST
+      - PROD
+  MinSize:
+    Type: String
+    Description: Minimum number of app servers
+    Default: "2"
+  MaxSize:
+    Type: String
+    Description: Maximum number of app servers
+    Default: "4"
+  DesiredCapacity:
+    Type: String
+    Description: Initial number of app servers
+    Default: "2"
+  LatestAmazonLinux2:
+    Description: Latest Amazon Linux 2 AMI is auto selected  
+    Type: "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>"
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+  KeyPair: 
+    Description: Please select the EC2 key pair from dropdown
+    Type: "AWS::EC2::KeyPair::KeyName" 
+
+Mappings:
+  InstanceSize:
+    DEV:
+      "EC2": "t2.micro"
+    TEST:
+      "EC2": "t2.micro"
+    PROD:
+      "EC2": "t2.micro"
+
+Resources:
+  SSMInstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Policies:
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Action:
+                  - s3:GetObject
+                Resource:
+                  - !Sub "arn:aws:s3:::aws-ssm-${AWS::Region}/*"
+                  - !Sub "arn:aws:s3:::aws-windows-downloads-${AWS::Region}/*"
+                  - !Sub "arn:aws:s3:::amazon-ssm-${AWS::Region}/*"
+                  - !Sub "arn:aws:s3:::amazon-ssm-packages-${AWS::Region}/*"
+                  - !Sub "arn:aws:s3:::${AWS::Region}-birdwatcher-prod/*"
+                  - !Sub "arn:aws:s3:::patch-baseline-snapshot-${AWS::Region}/*"
+                Effect: Allow
+          PolicyName: ssm-custom-s3-policy
+      Path: /
+      ManagedPolicyArns:
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore"
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "ec2.amazonaws.com"
+                - "ssm.amazonaws.com"
+            Action: "sts:AssumeRole"
+  SSMInstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      Roles:
+        - !Ref SSMInstanceRole
+  SsmAssociation:
+    # CloudFormation Resource Type that creates State Manager Associations
+    Type: AWS::SSM::Association
+    Properties:
+      # Command Document that this Association will run
+      Name: AWS-RunShellScript
+      WaitForSuccessTimeoutSeconds: 300
+      # Targeting Instance by Tags
+      Targets:
+        - Key: tag:Env
+          Values:
+            - "DEV"
+      # Parameters for the AWS-RunShellScript, in this case commands to install sample app
+      Parameters:
+        commands:
+          - |
+            sudo yum install httpd -y
+            sudo systemctl start httpd
+            sudo systemctl enable httpd
+            cd /var/www/html
+            sudo wget https://raw.githubusercontent.com/nvaws/labs/main/index.txt
+            INSTANCEID=`curl http://169.254.169.254/latest/meta-data/instance-id`
+            INSTANCETYPE=`curl http://169.254.169.254/latest/meta-data/instance-type`
+            PRIVATEIP=`curl http://169.254.169.254/latest/meta-data/local-ipv4`
+            sudo sed -e "s/INSTANCEID/$INSTANCEID/" -e "s/INSTANCETYPE/$INSTANCETYPE/" -e "s/PRIVATEIP/$PRIVATEIP/" index.txt > index.html            
+  MyTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: MyTG
+      Port: 80
+      Protocol: HTTP
+      VpcId: !ImportValue MyNetStack-VPC
+  LaunchConfiguration:
+    Type: "AWS::AutoScaling::LaunchConfiguration"
+    Properties:
+      ImageId: !Ref LatestAmazonLinux2
+      InstanceType: !FindInMap [InstanceSize, !Ref Environment, EC2]
+      IamInstanceProfile: !Ref SSMInstanceProfile
+      KeyName: !Ref "KeyPair"
+      SecurityGroups:
+        - !ImportValue MyNetStack-LnxWebSG
+      UserData:
+        "Fn::Base64":
+          !Sub |
+            #!/bin/bash -xe
+            yum update -y aws-cfn-bootstrap
+            /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource AutoScalingGroup --region ${AWS::Region}              
+            yum update -y
+  AutoScalingGroup:
+    Type: "AWS::AutoScaling::AutoScalingGroup"
+    CreationPolicy:
+      ResourceSignal:
+        Count: !Ref DesiredCapacity
+    UpdatePolicy:
+      AutoScalingReplacingUpdate:
+        WillReplace: true
+    Properties:
+      Cooldown: "300"
+      DesiredCapacity: !Ref DesiredCapacity
+      LaunchConfigurationName: !Ref LaunchConfiguration
+      HealthCheckGracePeriod: "300"
+      HealthCheckType: ELB      
+      MaxSize: !Ref MaxSize
+      MinSize: !Ref MinSize
+      TargetGroupARNs:
+        - !Ref MyTG
+      VPCZoneIdentifier:
+        - !ImportValue MyNetStack-PubSub01
+        - !ImportValue MyNetStack-PubSub02
+      Tags:
+        - Key: Name
+          PropagateAtLaunch: true
+          Value: !Join [_, [!Ref "AWS::StackName", WebServer]]
+        - Key: Env
+          PropagateAtLaunch: true        
+          Value: !Ref Environment
+  AutoScalingGroupScalingPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AutoScalingGroupName: !Ref AutoScalingGroup
+      PolicyType: TargetTrackingScaling
+      TargetTrackingConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ASGAverageCPUUtilization
+        TargetValue: "60"
+  MyALBListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - TargetGroupArn: !Ref MyTG
+          Type: forward
+      LoadBalancerArn: !Ref ALB
+      Port: 80
+      Protocol: HTTP      
+  ALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: MyALB
+      Scheme: internet-facing
+      SecurityGroups:
+        - !ImportValue MyNetStack-ELBSG
+      Subnets:
+        - !ImportValue MyNetStack-PubSub01
+        - !ImportValue MyNetStack-PubSub02
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", ALB]]
+        - Key: Env
+          Value: !Ref Environment
+
+Outputs:
+  ALBDNSName:
+    Description: The DNSName of the application load balancer
+    Value: !GetAtt ALB.DNSName

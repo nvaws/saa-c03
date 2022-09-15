@@ -1,0 +1,437 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: This template will create the Network Infrastructure for the Lab01 sample application. NAT gateway if created will be chargeable. 
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      -
+        Label:
+          default: "Network Configuration"
+        Parameters:
+          - VpcCIDR
+          - PubSub01CIDR
+          - PubSub02CIDR
+          - PvtSub01CIDR
+          - PvtSub02CIDR
+          - NATGatewaysRequired
+
+Parameters:
+  Environment:
+    Type: String
+    Description: Type of environment to provision
+    Default: DEV
+    AllowedValues:
+      - DEV
+      - TEST
+      - PROD
+  VpcCIDR:
+    Description: "Please enter the IP range (CIDR notation) for this VPC"
+    Type: String
+    Default: 10.0.0.0/16
+  PubSub01CIDR:
+    Description: "Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone"
+    Type: String
+    Default: 10.0.3.0/24
+  PubSub02CIDR:
+    Description: "Please enter the IP range (CIDR notation) for the public subnet in the second Availability Zone"
+    Type: String
+    Default: 10.0.4.0/24
+  PvtSub01CIDR:
+    Description: "Please enter the IP range (CIDR notation) for the private subnet in the first Availability Zone"
+    Type: String
+    Default: 10.0.1.0/24
+  PvtSub02CIDR:
+    Description: "Please enter the IP range (CIDR notation) for the private subnet in the second Availability Zone"
+    Type: String
+    Default: 10.0.2.0/24
+  NATGatewaysRequired:
+    Description: Please mention do you require the two NATGateways to be installed at this stage.
+    Type: String
+    Default: "No"
+    AllowedValues:
+      - "Yes"
+      - "No"
+
+Conditions:
+  isRequired: !Equals [!Ref NATGatewaysRequired, "Yes"]
+  isntRequired: !Not [!Equals [!Ref NATGatewaysRequired, "No"]]
+
+Resources:
+  VPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+      EnableDnsSupport: "true"
+      EnableDnsHostnames: "true"
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", VPC]]
+        - Key: Env
+          Value: !Ref Environment
+  InternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", IGW]]
+        - Key: Env
+          Value: !Ref Environment
+  InternetGatewayAttachment:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+  PubSub01:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: !Ref PubSub01CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", PubSub01]]
+        - Key: Env
+          Value: !Ref Environment
+  PubSub02:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      CidrBlock: !Ref PubSub02CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", PubSub02]]
+        - Key: Env
+          Value: !Ref Environment
+  PvtSub01:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      CidrBlock: !Ref PvtSub01CIDR
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", PvtSub01]]
+        - Key: Env
+          Value: !Ref Environment
+  PvtSub02:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: !Ref PvtSub02CIDR
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", PvtSub02]]
+        - Key: Env
+          Value: !Ref Environment
+  PublicRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", PubRT]]
+        - Key: Env
+          Value: !Ref Environment
+  DefaultPublicRoute:
+    Type: "AWS::EC2::Route"
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+  PubSub01RouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PubSub01
+  PubSub02RouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PubSub02
+  NatGateway01EIP:
+    Type: AWS::EC2::EIP
+    Condition: isRequired
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      Domain: vpc
+  NatGateway01:
+    Type: AWS::EC2::NatGateway
+    Condition: isRequired
+    Properties:
+      AllocationId: !GetAtt NatGateway01EIP.AllocationId
+      SubnetId: !Ref PubSub01
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", NatGateway01]]
+        - Key: Env
+          Value: !Ref Environment
+  NatGateway02EIP:
+    Type: AWS::EC2::EIP
+    Condition: isRequired
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      Domain: vpc
+  NatGateway02:
+    Type: AWS::EC2::NatGateway
+    Condition: isRequired
+    Properties:
+      AllocationId: !GetAtt NatGateway02EIP.AllocationId
+      SubnetId: !Ref PubSub02
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", NatGateway02]]
+        - Key: Env
+          Value: !Ref Environment
+  PrivateRouteTable01:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", PvtRTable01]]
+        - Key: Env
+          Value: !Ref Environment
+  DefaultPrivateRoute01:
+    Type: AWS::EC2::Route
+    Condition: isRequired
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable01
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway01
+  PvtSub01RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable01
+      SubnetId: !Ref PvtSub01
+  PrivateRouteTable02:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", PvtRTable02]]
+        - Key: Env
+          Value: !Ref Environment
+  DefaultPrivateRoute02:
+    Type: AWS::EC2::Route
+    Condition: isRequired
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable02
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway02
+  PvtSub02RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable02
+      SubnetId: !Ref PvtSub02
+  ELBSG:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupName: ELBSG
+      GroupDescription: "Accepts traffic on port 80, 443 from anywhere."
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", ELBSG]]
+        - Key: Env
+          Value: !Ref Environment
+  OpenWebSG:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupName: OpenWebSG
+      GroupDescription: "Accepts web and remote access traffic from anywhere."
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 3389
+          ToPort: 3389
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", OpenWebSG]]
+        - Key: Env
+          Value: !Ref Environment
+  WinWebSG:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupName: WinWebSG
+      GroupDescription: "Accepts web traffic from ELBSG and remote access from Bastion host."
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId: !Ref ELBSG
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          SourceSecurityGroupId: !Ref ELBSG
+        - IpProtocol: tcp
+          FromPort: 3389
+          ToPort: 3389
+          SourceSecurityGroupId: !Ref WinBHSG
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", WinWebSG]]
+        - Key: Env
+          Value: !Ref Environment
+  LnxWebSG:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupName: LnxWebSG
+      GroupDescription: "Accepts web traffic from ELBSG and remote access from Bastion host."
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId: !Ref ELBSG
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          SourceSecurityGroupId: !Ref ELBSG
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          SourceSecurityGroupId: !Ref WinBHSG
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          SourceSecurityGroupId: !Ref LnxBHSG
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", LnxWebSG]]
+        - Key: Env
+          Value: !Ref Environment
+  WinBHSG:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupName: WinBHSG
+      GroupDescription: "Accepts RDP traffic from anywhere."
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3389
+          ToPort: 3389
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", WinBHSG]]
+        - Key: Env
+          Value: !Ref Environment
+  LnxBHSG:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupName: LnxBHSG
+      GroupDescription: "Accepts RDP traffic from anywhere."
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", LnxBHSG]]
+        - Key: Env
+          Value: !Ref Environment
+  DBSG:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupName: DBSG
+      GroupDescription: "Accepts DB traffic from WebSG."
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Ref LnxWebSG
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", DBSG]]
+        - Key: Env
+          Value: !Ref Environment
+  DBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: description
+      SubnetIds:
+        - !Ref PvtSub01
+        - !Ref PvtSub02
+      Tags:
+        - Key: Name
+          Value: !Join [_, [!Ref "AWS::StackName", DBSubnetGroup]]
+        - Key: Env
+          Value: !Ref Environment
+
+Outputs:
+  VPC:
+    Description: "A reference to the created VPC"
+    Value: !Ref VPC
+    Export:
+      Name: !Sub "${AWS::StackName}-VPC"
+  PubSub01:
+    Description: "A reference to the public subnet in the 1st Availability Zone"
+    Value: !Ref PubSub01
+    Export:
+      Name: !Sub "${AWS::StackName}-PubSub01"
+  PubSub02:
+    Description: "A reference to the public subnet in the 2nd Availability Zone"
+    Value: !Ref PubSub02
+    Export:
+      Name: !Sub "${AWS::StackName}-PubSub02"
+  PvtSub01:
+    Description: "A reference to the private subnet in the 1st Availability Zone"
+    Value: !Ref PvtSub01
+    Export:
+      Name: !Sub "${AWS::StackName}-PvtSub01"
+  PvtSub02:
+    Description: "A reference to the private subnet in the 2nd Availability Zone"
+    Value: !Ref PvtSub02
+    Export:
+      Name: !Sub "${AWS::StackName}-PvtSub02"
+  ELBSG:
+    Description: "Security group for the Load Balancer"
+    Value: !Ref ELBSG
+    Export:
+      Name: !Sub "${AWS::StackName}-ELBSG"
+  WinBHSG:
+    Description: "Security group for the Bastion Host"
+    Value: !Ref WinBHSG
+    Export:
+      Name: !Sub "${AWS::StackName}-WinBHSG"
+  WinWebSG:
+    Description: "Security group for the Windows instance"
+    Value: !Ref WinWebSG
+    Export:
+      Name: !Sub "${AWS::StackName}-WinWebSG"
+  LnxWebSG:
+    Description: "Security group for the Linux instance"
+    Value: !Ref LnxWebSG
+    Export:
+      Name: !Sub "${AWS::StackName}-LnxWebSG"
+
