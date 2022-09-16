@@ -1,3 +1,18 @@
+## Get Started
+
+- [The NIST definition of cloud computing](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf)
+- [Introduction and History of AWS](https://techcrunch.com/2016/07/02/andy-jassys-brief-history-of-the-genesis-of-aws/)
+- [Certification Roadmap](https://aws.amazon.com/certification/)
+- [AWS Certified Solutions Architect – Associate](https://aws.amazon.com/certification/certified-solutions-architect-associate/)
+- [Free tier account creation](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) and [coverage](https://aws.amazon.com/free/)
+- [AWS Global Infrastructure](https://aws.amazon.com/about-aws/global-infrastructure/)
+- [Regions, Availability Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) and [Edge Network Locations](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/#AWS_Edge_Network_Locations)
+- Exploring the AWS Management Console
+- [Control your AWS costs](https://aws.amazon.com/getting-started/hands-on/control-your-costs-free-tier-budgets/)
+- [Setting up free tier billing alerts](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/tracking-free-tier-usage.html)
+- [AWS Ramp-Up Guide: Architect](https://d1.awsstatic.com/training-and-certification/ramp-up_guides/Ramp-Up_Guide_Architect.pdf)
+
+
 **AWS services and features**
 
 **Analytics:**
@@ -162,3 +177,28 @@
 - Amazon S3 
 - Amazon S3 Glacier 
 - AWS Storage Gateway
+
+
+### Miscellaneous
+
+
+- [Simple Monthly Calculator](https://calculator.s3.amazonaws.com/index.html), [AWS Pricing Calculator](https://calculator.aws/#/) 
+
+### Study further
+
+- [Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/wellarchitected-framework.pdf#welcome), [Online free training](https://www.aws.training/Details/Curriculum?id=42037), [WellArchitectedLabs](https://wellarchitectedlabs.com/)
+- [AWS Blog](https://aws.amazon.com/blogs/)
+- [AWS Knowledge Center](https://aws.amazon.com/premiumsupport/knowledge-center/)
+- [Shared Responsibility Model](https://aws.amazon.com/compliance/shared-responsibility-model/)
+- [AWS Documentation](https://docs.aws.amazon.com/index.html)
+- [AWS Slideshare Channel](https://www.slideshare.net/AmazonWebServices)
+- [AWS Samples](https://github.com/aws-samples), [AWS Labs](https://github.com/awslabs), [AWS Workshops](https://workshops.aws/)
+- [AWS Serverless Multi-Tier Architectures with Amazon API Gateway and AWS Lambda - Whitepaper](https://docs.aws.amazon.com/whitepapers/latest/serverless-multi-tier-architectures-api-gateway-lambda/welcome.html)
+- [Serverless Application Workshop](https://aws.amazon.com/getting-started/hands-on/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/)
+- [Application Migration Workshop](https://application-migration-with-aws.workshop.aws/en)
+- [AWS Solutions](https://aws.amazon.com/solutions/)
+- [AWS Events](https://aws.amazon.com/events/)
+- [Ramp-Up Guides](https://aws.amazon.com/training/ramp-up-guides/)
+- [AWS YouTube Channel](https://www.youtube.com/channel/UCd6MoB9NC6uYN2grvUNT-Zg) reInvent, breakout sessions, aws.training, [whitepapers](https://aws.amazon.com/whitepapers/?whitepapers/), [customer case studies](https://aws.amazon.com/solutions/case-studies/), [this is my architecture](https://aws.amazon.com/this-is-my-architecture/), [Video Collection](https://awsvideocatalog.com/)
+- [AWS Blog](https://aws.amazon.com/blogs/aws/), [AWS Online Tech Talks](https://aws.amazon.com/events/online-tech-talks/)
+- [Exam Readiness: AWS Certified Solutions Architect – Associate](https://explore.skillbuilder.aws/learn/course/external/view/elearning/125/exam-readiness-aws-certified-solutions-architect-associate-digital)
