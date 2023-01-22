@@ -1,11 +1,11 @@
 Downoad this [zip](https://github.com/nvaws/planetup/archive/refs/heads/main.zip) file 
-Create a new bucket in any region of your choice
-click on the bucket name
-click on upload
-Drang and Drop the index.html and assets folder, click on upload
-permission block public access - uncheck - check the top two - save - confirm
-update bucket policy to mke it publiclly readable 
-Bucket Policy: paste the below policy, update the bucket name and save
+Create a new bucket in any region of your choice  
+Click on the bucket name  
+Click on upload  
+Drag and Drop the index.html and assets folder, click on upload
+Go to Permission, modify the Block public access and uncheck the box confirm/save
+Update bucket policy to make your website publiclly readable 
+Bucket Policy: update the bucket name in the below policy and paste 
 ```
 {
     "Version": "2012-10-17",
