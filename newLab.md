@@ -61,17 +61,30 @@ Copy the endpoint (ARN): arn:aws:dynamodb:us-east-1:123456789123:table/prospects
 
 Create an item with fields: name, email, message, phone
 
-**Activity 04: Creating a Lambda function to store prospect's data into DynamoDB table**  
+**Activity 04: Creating a Role for Lambda function**  
+
+Go to IAM  
+Click on Roles  
+Click on Create Role  
+Trusted entity type: AWS Service
+Use case: Lambda  
+Click Next  
+Find and select the "AmazonDynamoDBFullAccess" and "AmazonS3FullAccess" on the Add permissions page, Click Next
+Role name: MyLambdaRole  
+Click on Create Role  
+
+
+**Activity 05: Creating a Lambda function to store prospect's data into DynamoDB table**  
 
 create a lambda function
 Function name: AnyName
 Runtime: Node.js 16.x
-Permissions: Assign a role that has S3 and DynamoDB full access.
+Permissions: Assign the role that you created in the previous step (MyLambdaRole)
 Create Function
 Edit code inline - delete the existing code in index.js and paste the one here. Update region name (line 5, 13) and table name (line 27) in the code. Save.
 Keep the tab open
 
-**Activity 05: Creating a REST API using AWS API Gateway to trigger te Lambda function** 
+**Activity 05: Creating a REST API using AWS API Gateway to trigger the Lambda function** 
 
 go to APIGateway  
 Get Started  
