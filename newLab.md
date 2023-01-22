@@ -29,7 +29,31 @@ Bucket Policy: update the bucket name in the below policy and paste
 Go to properties and enable website hosting feature  
 See if you can visit the website url in browser  
 
-**Activity 02: Creating a DynamoDB Table to store prospect's data**  
+**Activity 02: Serving the website via CloudFront distribution**  
+
+let us serve this website using CloudFront now  
+go to cloudfront  
+create distibution  
+Origin domain: selet your s3 bucket from the dropdown  
+Ignore the recommandation to "Use websie endpoint" if you see a message  
+select "Legacy access identities"  
+Click on Create new OAI  
+Select "Yes, update the bucket policy"  
+
+leave everything default  
+Default root object - optional: type index.html  
+
+click on Create distribution  
+
+copy the distribution url and visit in few minutes after the distribution is deployed  
+
+check if there is Bucket policy created in your S3 bucket  
+
+your website is now eing served by the CloudFront url only and not directly accessible using eh previous "Bucket website endpoint"
+
+verify the functionality of your website
+
+**Activity 03: Creating a DynamoDB Table to store prospect's data**  
 
 Create a dynamodb table  
 Table name: prospects  
@@ -92,27 +116,6 @@ if everything went fine then you shund see an entry in your dynamo DB table.
 remove the public permission policy from s3 bucket
 turn on the "Block public access (bucket settings)"
 
-let us serve this website using CloudFront now
-go to cloudfront
-create distibution
-Origin domain: selet your s3 bucket from the dropdown
-Ignore the recommandation to "Use websie endpoint" if you see a message
-select "Legacy access identities"
-Click on Create new OAI
-Select "Yes, update the bucket policy"
-
-leave everything default
-Default root object - optional: type index.html
-
-click on Create distribution
-
-copy the distribution url and visit in few minutes after the distribution is deployed
-
-check if there is Bucket policy created in your S3 bucket
-
-your website is now eing served by the CloudFront url only and not directly accessible using eh previous "Bucket website endpoint"
-
-verify the functionality of your website
 
 Cleanup steps
 disable and delete the CloudFront distribution (takes time)
