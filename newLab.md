@@ -31,27 +31,25 @@ See if you can visit the website url in browser
 
 **Activity 02: Serving the website via CloudFront distribution**  
 
-let us serve this website using CloudFront now  
-go to cloudfront  
-create distibution  
-Origin domain: selet your s3 bucket from the dropdown  
-Ignore the recommandation to "Use websie endpoint" if you see a message  
-select "Legacy access identities"  
-Click on Create new OAI  
-Select "Yes, update the bucket policy"  
+Let us serve this website using CloudFront now  
+Go to CloudFront service
+Click on "Create distibution"  
+- Origin domain: selet your s3 bucket from the dropdown  
+-  Ignore the recommandation to "Use websie endpoint" if you see a message  
+- Select "Legacy access identities"  
+- Click on Create new OAI  
+- Select "Yes, update the bucket policy"  
+- leave everything else as default  
+- Default root object - optional: index.html  
 
-leave everything default  
-Default root object - optional: type index.html  
+Click on Create distribution  
 
-click on Create distribution  
+The distribution url will be created and will go into deployment mode. You can copy the distribution url and visit in few minutes after the distribution is deployed  
 
-copy the distribution url and visit in few minutes after the distribution is deployed  
+Check if there is Bucket policy created in your S3 bucket, try to understand what does it mean.  
 
-check if there is Bucket policy created in your S3 bucket  
+Your website is now being served by the CloudFront url only and is not directly accessible using the previous "Bucket website endpoint"
 
-your website is now eing served by the CloudFront url only and not directly accessible using eh previous "Bucket website endpoint"
-
-verify the functionality of your website
 
 **Activity 03: Creating a DynamoDB Table to store prospect's data**  
 
@@ -63,7 +61,7 @@ copy the endpoint: arn:aws:dynamodb:us-east-1:123456789123:table/prospects
 
 create an item with fields name, email, message, phone
 
-**Activity 03: Creating a Lambda function to store prospect's data into DynamoDB table**  
+**Activity 04: Creating a Lambda function to store prospect's data into DynamoDB table**  
 
 create a lambda function
 Function name: AnyName
@@ -73,7 +71,7 @@ Create Function
 Edit code inline - delete the existing code in index.js and paste the one here. Update region name (line 5, 13) and table name (line 27) in the code. Save.
 Keep the tab open
 
-**Activity 04: Creating a REST API using AWS API Gateway to trigger te Lambda function** 
+**Activity 05: Creating a REST API using AWS API Gateway to trigger te Lambda function** 
 
 go to APIGateway  
 Get Started  
