@@ -26,19 +26,20 @@ Bucket Policy: update the bucket name in the below policy and paste
     ]
 }
 ```
-Go to properties and enable website hosting feature
-See if you can visit the website url in browser
-Done
+Go to properties and enable website hosting feature  
+See if you can visit the website url in browser  
 
+**Activity 02: Creating a DynamoDB Table to store prospect's data**  
 
-create a dynamodb table 
-Table name: prospects
-Primary key: name
-Create
-copy the endpoint: arn:aws:dynamodb:us-east-1:123456789123:table/prospects 
+Create a dynamodb table  
+Table name: prospects  
+Primary key: name  
+Create  
+copy the endpoint: arn:aws:dynamodb:us-east-1:123456789123:table/prospects  
 
 create an item with fields name, email, message, phone
 
+**Activity 03: Creating a Lambda function to store prospect's data into DynamoDB table**  
 
 create a lambda function
 Function name: AnyName
@@ -48,15 +49,17 @@ Create Function
 Edit code inline - delete the existing code in index.js and paste the one here. Update region name (line 5, 13) and table name (line 27) in the code. Save.
 Keep the tab open
 
-go to APIGateway
-Get Started
-Create API
-Choose the protocol: REST
-Create new API: New API
-Settings 
-API Name: NewProspectsAPI
-Endpoint Type: Regional
-Create API
+**Activity 04: Creating a REST API using AWS API Gateway to trigger te Lambda function** 
+
+go to APIGateway  
+Get Started  
+Create API  
+Choose the protocol: REST  
+Create new API: New API  
+Settings  
+API Name: NewProspectsAPI  
+Endpoint Type: Regional  
+Create API  
 
 You API will get created and you should be in resources section. Click on Actions dropdown and Create Resource 
 Resource Name: prospects
