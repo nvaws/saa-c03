@@ -57,9 +57,9 @@ Create a dynamodb table
 Table name: prospects  
 Primary key: name  
 Create  
-copy the endpoint: arn:aws:dynamodb:us-east-1:123456789123:table/prospects  
+Copy the endpoint (ARN): arn:aws:dynamodb:us-east-1:123456789123:table/prospects  
 
-create an item with fields name, email, message, phone
+Create an item with fields: name, email, message, phone
 
 **Activity 04: Creating a Lambda function to store prospect's data into DynamoDB table**  
 
