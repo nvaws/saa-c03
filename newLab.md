@@ -1,4 +1,4 @@
-***Activity 01: Creating a static website***  
+**Activity 01: Creating a static website**  
 
 Downoad this [zip](https://github.com/nvaws/planetup/archive/refs/heads/main.zip) file 
 Create a new bucket in any region of your choice  
