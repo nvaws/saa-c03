@@ -1,11 +1,13 @@
+***Activity 01: Creating a static website***  
+
 Downoad this [zip](https://github.com/nvaws/planetup/archive/refs/heads/main.zip) file 
 Create a new bucket in any region of your choice  
 Click on the bucket name  
 Click on upload  
-Drag and Drop the index.html and assets folder, click on upload
-Go to Permission, modify the Block public access and uncheck the box confirm/save
-Update bucket policy to make your website publiclly readable 
-Bucket Policy: update the bucket name in the below policy and paste 
+Drag and Drop the index.html and assets folder, click on upload  
+Go to Permission, modify the Block public access and uncheck the box confirm/save  
+Update bucket policy to make your website publiclly readable  
+Bucket Policy: update the bucket name in the below policy and paste  
 ```
 {
     "Version": "2012-10-17",
@@ -24,8 +26,8 @@ Bucket Policy: update the bucket name in the below policy and paste
     ]
 }
 ```
-enable website hosting feature
-ensure you can visit the website url in browser
+Go to properties and enable website hosting feature
+See if you can visit the website url in browser
 Done
 
 
