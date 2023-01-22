@@ -128,12 +128,14 @@ Now you can go to the planetup site webpage, refresh it once, put some data in t
 
 
 Cleanup steps
-disable and delete the CloudFront distribution (takes time)
-DynamoDB Table
-API in API Gateway
-Lambda Function 
-S3 bucket
+- Disable and delete the CloudFront distribution (takes time)
+- DynamoDB Table
+- API in API Gateway
+- Lambda Function 
+- S3 bucket
 
 
 
 Lab Completed.
+
+
