@@ -54,7 +54,6 @@ Check if there is Bucket policy created in your S3 bucket, try to understand wha
 
 Your website is now being served by the CloudFront url only and is not directly accessible using the previous "Bucket website endpoint"
 
-
 **Activity 03: Creating a DynamoDB Table to store prospect's data**  
 
 Create a dynamodb table  
@@ -75,7 +74,6 @@ Create an item with fields: name, email, message, phone
 - Find and select the "AmazonDynamoDBFullAccess" and "AmazonS3FullAccess" on the Add permissions page, Click Next
 - Role name: MyLambdaRole  
 - Click on Create Role  
-
 
 **Activity 05: Creating a Lambda function to store prospect's data into DynamoDB table**  
 
@@ -104,13 +102,15 @@ You API will get created and you should be in resources section. Click on Action
 - Enable API Gateway CORS: yes
 - Create Resource
 - Click again on Actions dropdown and Create Method
-- Select POST and click on the check box to save
+- Select POST and click on the check box to save 
+  
 On the right side of the screen
 - Integration type: Lambda Function
 - Use Lambda Proxy integration: yes
 - Lambda Region: Select your region from dropdown
 - Lambda Function: type the name of your Lambda function
 - Save  
+  
 It will ask your consent for adding permission to Lambda Function, say OK
 
 - Click on Action Dropdown - Deploy API
@@ -126,7 +126,6 @@ Finally update the Invoke URL in the javascript file (line 9) inside assets -> c
 
 Now you can go to the planetup site webpage, refresh it once, put some data in the form and submit. If everything went fine then you should see an entry in your dynamo DB table.
 
-
 Cleanup steps
 - Disable and delete the CloudFront distribution (takes time)
 - DynamoDB Table
@@ -134,8 +133,4 @@ Cleanup steps
 - Lambda Function 
 - S3 bucket
 
-
-
 Lab Completed.
-
-
