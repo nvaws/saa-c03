@@ -46,7 +46,7 @@ Skills in:
 - Implementing data backups and replications 
 - Implementing policies for data access, lifecycle, and protection 
 - Rotating encryption keys and renewing certificates 
-- 
+
 # Domain 2: Design Resilient Architectures  
 **Task Statement 1:** Design scalable and loosely coupled architectures. 
 
@@ -178,7 +178,8 @@ Skills in:
 - Designing data streaming architectures  
 - Designing data transfer solutions 
 - Implementing visualization strategies 
-- Selecting appropriate compute options for data processing (for example, Amazon EMR) - Selecting appropriate configurations for ingestion 
+- Selecting appropriate compute options for data processing (for example, Amazon EMR) 
+- Selecting appropriate configurations for ingestion 
 - Transforming data between formats (for example, .csv to .parquet)
 
 # Domain 4: Design Cost-Optimized Architectures 
@@ -192,7 +193,8 @@ Knowledge of:
 - Backup strategies 
 - Block storage options (for example, hard disk drive [HDD] volume types, solid state drive [SSD]  volume types) 
 - Data lifecycles 
-- Hybrid storage options (for example, DataSync, Transfer Family, Storage Gateway) - Storage access patterns 
+- Hybrid storage options (for example, DataSync, Transfer Family, Storage Gateway) 
+- Storage access patterns 
 - Storage tiering (for example, cold tiering for object storage) 
 - Storage types with associated characteristics (for example, object, file, block) 
 
@@ -255,13 +257,16 @@ Knowledge of:
 - AWS cost management service features (for example, cost allocation tags, multi-account  billing) 
 - AWS cost management tools with appropriate use cases (for example, Cost Explorer, AWS  Budgets, AWS Cost and Usage Report) 
 - Load balancing concepts (for example, Application Load Balancer) 
-- NAT gateways (for example, NAT instance costs compared with NAT gateway costs) - Network connectivity (for example, private lines, dedicated lines, VPNs) 
-- Network routing, topology, and peering (for example, AWS Transit Gateway, VPC peering) - Network services with appropriate use cases (for example, DNS) 
+- NAT gateways (for example, NAT instance costs compared with NAT gateway costs) 
+- Network connectivity (for example, private lines, dedicated lines, VPNs) 
+- Network routing, topology, and peering (for example, AWS Transit Gateway, VPC peering) 
+- Network services with appropriate use cases (for example, DNS) 
   
 Skills in: 
 - Configuring appropriate NAT gateway types for a network (for example, a single shared NAT  gateway compared with NAT gateways for each Availability Zone) 
 - Configuring appropriate network connections (for example, Direct Connect compared with  VPN compared with internet) 
 - Configuring appropriate network routes to minimize network transfer costs (for example,  Region to Region, Availability Zone to Availability Zone, private to public, Global Accelerator,  VPC endpoints) 
-- Determining strategic needs for content delivery networks (CDNs) and edge caching - Reviewing existing workloads for network optimizations  
+- Determining strategic needs for content delivery networks (CDNs) and edge caching 
+- Reviewing existing workloads for network optimizations  
 - Selecting an appropriate throttling strategy  
 - Selecting the appropriate bandwidth allocation for a network device (for example, a single  VPN compared with multiple VPNs, Direct Connect speed)
