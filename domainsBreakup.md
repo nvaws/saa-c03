@@ -9,7 +9,8 @@ Knowledge of:
 
 Skills in: 
 - Applying AWS security best practices to IAM users and root users (for example, multi-factor  authentication [MFA]) 
-- Designing a flexible authorization model that includes IAM users, groups, roles, and policies - Designing a role-based access control strategy (for example, AWS Security Token Service [AWS  STS], role switching, cross-account access) 
+- Designing a flexible authorization model that includes IAM users, groups, roles, and policies 
+- Designing a role-based access control strategy (for example, AWS Security Token Service [AWS  STS], role switching, cross-account access) 
 - Designing a security strategy for multiple AWS accounts (for example, AWS Control Tower, service control policies [SCPs]) 
 - Determining the appropriate use of resource policies for AWS services 
 - Determining when to federate a directory service with IAM roles  
@@ -138,7 +139,8 @@ Knowledge of:
 - AWS global infrastructure (for example, Availability Zones, AWS Regions) 
 - Caching strategies and services (for example, Amazon ElastiCache) 
 - Data access patterns (for example, read-intensive compared with write-intensive) 
-- Database capacity planning (for example, capacity units, instance types, Provisioned IOPS) - Database connections and proxies 
+- Database capacity planning (for example, capacity units, instance types, Provisioned IOPS) 
+- Database connections and proxies 
 - Database engines with appropriate use cases (for example, heterogeneous migrations,  homogeneous migrations) 
 - Database replication (for example, read replicas) 
 - Database types and services (for example, serverless, relational compared with non-relational, in-memory)
@@ -147,7 +149,8 @@ Skills in:
 - Configuring read replicas to meet business requirements 
 - Designing database architectures 
 - Determining an appropriate database engine (for example, MySQL compared with  PostgreSQL) 
-- Determining an appropriate database type (for example, Amazon Aurora, Amazon DynamoDB) - Integrating caching to meet business requirements 
+- Determining an appropriate database type (for example, Amazon Aurora, Amazon DynamoDB) 
+- Integrating caching to meet business requirements 
   
 **Task Statement 4:** Determine high-performing and/or scalable network architectures. 
 
@@ -169,7 +172,8 @@ Knowledge of:
 - Data analytics and visualization services with appropriate use cases (for example, Amazon  Athena, AWS Lake Formation, Amazon QuickSight) 
 - Data ingestion patterns (for example, frequency) 
 - Data transfer services with appropriate use cases (for example, AWS DataSync, AWS Storage  Gateway)  
-- Data transformation services with appropriate use cases (for example, AWS Glue)  - Secure access to ingestion access points 
+- Data transformation services with appropriate use cases (for example, AWS Glue)  
+- Secure access to ingestion access points 
 - Sizes and speeds needed to meet business requirements 
 - Streaming data services with appropriate use cases (for example, Amazon Kinesis) 
 
