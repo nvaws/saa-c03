@@ -1,4 +1,5 @@
 # Domain 1: Design Secure Architectures
+
 **Task Statement 1:** Design secure access to AWS resources.  
 Knowledge of: 
 - Access controls and management across multiple accounts  
