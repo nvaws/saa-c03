@@ -1,6 +1,6 @@
 # Domain 1: Design Secure Architectures
-
 **Task Statement 1:** Design secure access to AWS resources.  
+
 Knowledge of: 
 - Access controls and management across multiple accounts  
 - AWS federated access and identity services (for example, AWS Identity and Access  Management [IAM], AWS Single Sign-On [AWS SSO]) 
