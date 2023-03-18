@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: This template will create the Network Infrastructure for the Lab01 sample application. NAT gateway if created will be chargeable. 
+Description: This template will create the Network Infrastructure for the Lab01 sample application. NAT gateway is optional and chargeable if created. 
 
 Metadata:
   AWS::CloudFormation::Interface:
