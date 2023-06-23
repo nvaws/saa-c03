@@ -126,6 +126,8 @@ Finally update the Invoke URL in the javascript file (line 9) inside assets -> c
 
 Now you can go to the planetup site webpage, refresh it once, put some data in the form and submit. If everything went fine then you should see an entry in your dynamo DB table.
 
+:key: you may have to invalidate the js file from Cloudfront as the previous file would have been cached.  
+
 Cleanup steps
 - Disable and delete the CloudFront distribution (takes time)
 - DynamoDB Table
