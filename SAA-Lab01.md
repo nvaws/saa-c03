@@ -60,7 +60,7 @@ In the navigation pane find and click on 'Security Groups'
 | HTTPS |   TCP    |    443     | Anywhere-IPv4 | 0.0.0.0/0 |
 |  SSH  |   TCP    |     22     | Anywhere-IPv4 | 0.0.0.0/0 |
 
- * Click on Create
+  * Click on Create
 
 Similarly create the other two Security Groups as given below.
 
