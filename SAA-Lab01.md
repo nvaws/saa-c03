@@ -172,7 +172,7 @@ Now go to the Auto Scaling Groups Dashboard. Explore the Activity History and ot
 
 Also check if you received an email from SNS topic, you need to confirm the subscription.
 
-You have just launched our highly available web application in an Auto Scaling Group. You can browse the application by the instances' public IPs/DNS.
+You have just launched our highly available web application in an Auto Scaling Group. 
 
 Let us create a Load balancer in public subnets, that will divert the traffic to both these instances in round robin method.
 
