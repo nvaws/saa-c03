@@ -51,7 +51,7 @@ In the navigation pane find and click on 'Security Groups'
 * Click on 'Create Security Group'
   * Security group name: OpenWebSG
   * Description: OpenWebSG.
-  * VPC: Lab-vpc
+  * VPC: MyNetStack-vpc
   * Inbound rules: add rules as mentioned below
 
 | Type  | Protocol | Port Range | Source |           |
@@ -94,7 +94,7 @@ Creating the Web Server
 * Key Pair: Create a new Key Pair -> Key pair name: mykey, leave the rest as default and click on Create Key pair.
 
 In the Network Settings section, edit and fill the below values
-* VPC: Lab-vpc
+* VPC: MyNetStack-vpc
 * Subnet: Select one of your Public Subnets
 * Firewall (security groups): Select existing security group -> OpenWebSG
 
@@ -157,7 +157,7 @@ Your Launch template is created, let us now use this Launch template to create a
 
 - Auto Scaling group name: MyWeb_ASG
 - Launch template: it is already selected. Click Next.
-- Network: Select Lab-vpc from the dropdown and then selct both of the public subnets from the Subnets dropdown. Click Next.
+- Network: Select MyNetStack-vpc from the dropdown and then selct both of the public subnets from the Subnets dropdown. Click Next.
 - Load balancing - optional: ignore everything on this page and click Next.
 - Group size: Desired capacity 2, Minimum capacity 2 and Maximum capacity 4.
 - Scaling policies: Select Target tracking scaling policy. Metric type: Average CPU utilization, Target Value: 50, Click Next.
@@ -184,7 +184,7 @@ Go to the Load Balancing section of EC2 dashboard and click on Target Group
 - Choose a target type: Instances
 - Target group name: MyTG
 - Protocol: HTTP and Port: 80
-- VPC: Lab-vpc
+- VPC: MyNetStack-vpc
 - Leave rest defaults and click Next.
 - Leave everything on this page unchanged and click Create target group.
 
