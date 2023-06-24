@@ -13,12 +13,12 @@ The network after building, will look similer to the picture below
 ### Activity 01 – Creating a VPC and associated resources
 
 Login to your AWS account and find VPC under Networking & Content Delivery category.  
-Click on VPC Dashboard in the side bar and then click on Launch VPC Wizard.  
+Click **Create VPC** on the VPC Dashboard.  
 
 Most of the below fields will be prefilled for you please verify, if not then update the below values.
 
-* Resources to create: VPC, subnets, etc.
-* Name tag auto-generation: "Lab"
+* Resources to create: VPC and more
+* Name tag auto-generation: "MyNetStack"
 * IPv4 CIDR block: 10.0.0.0/16
 * IPv4 CIDR block: No IPv6 CIDR Block
 * Tenancy: default
@@ -50,7 +50,7 @@ In the navigation pane find and click on 'Security Groups'
 
 * Click on 'Create Security Group'
   * Security group name: OpenWebSG
-  * Description: This SG is to be used for web application servers that are open to web access directly.
+  * Description: OpenWebSG.
   * VPC: Lab-vpc
   * Inbound rules: add rules as mentioned below
 
