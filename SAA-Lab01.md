@@ -197,7 +197,7 @@ Go to the Load Balancers page and click on Create Load Balancers.
 - Select the VPC in which you have launched the ASG
 - Select Public Subnets from both AZs. This is a critical step, reconfirm before going forward.
 - Configure Security Settings – Ignore the warning, it is recommending to have SSL certificate.
-- Security groups. Select My_ALB_SG from existing ones and remove any other if already selected.
+- Security groups. Select ELBSG from existing ones and remove any other if already selected.
 - Listeners and routing: Leave default HTTP listener and select the MyTG Target Group from the dropdown.
 - Leave rest defaults and Create load balancer
 
