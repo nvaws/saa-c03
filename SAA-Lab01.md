@@ -183,7 +183,7 @@ Go to the Load Balancing section of EC2 dashboard and click on Target Group
 - Create Target Group
 - Choose a target type: Instances
 - Target group name: MyTG
-- Protocol: HTTP and POrt: 80
+- Protocol: HTTP and Port: 80
 - VPC: Lab-vpc
 - Leave rest defaults and click Next.
 - Leave everything on this page unchanged and click Create target group.
