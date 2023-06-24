@@ -47,7 +47,7 @@ Let us now create two different 'Security Groups' for Web server and load balanc
 In the navigation pane find and click on 'Security Groups'
 
 * Click on 'Create Security Group'
-  * Security group name: My-Web-SG
+  * Security group name: LnxWebSG
   * Description: This SG is to be used for web application servers.
   * VPC: Lab-vpc
 * Click on Create
@@ -57,7 +57,7 @@ Similarly create another security group for your Loadbalancer layer.
 Select either of the Security Group now and click on 'Inbound Rules' tab.
 Click on 'Edit Rules' and add rules for incoming traffic on the security groups like mentioned below.
 
-#### My-Web-SG
+#### OpenWebSG
 
 | Type  | Protocol | Port Range | Source |           |
 | :---: | :------: | :--------: | :----: | :-------: |
@@ -65,7 +65,16 @@ Click on 'Edit Rules' and add rules for incoming traffic on the security groups 
 | HTTPS |   TCP    |    443     | Anywhere-IPv4 | 0.0.0.0/0 |
 |  SSH  |   TCP    |     22     | Anywhere-IPv4 | 0.0.0.0/0 |
 
-#### My-ALB-SG
+
+#### LnxWebSG
+
+| Type  | Protocol | Port Range | Source |           |
+| :---: | :------: | :--------: | :----: | :-------: |
+| HTTP  |   TCP    |     80     | Custom | ELBSG |
+| HTTPS |   TCP    |    443     | Custom | ELBSG |
+
+
+#### ELBSG
 
 | Type  | Protocol | Port Range | Source |           |
 | :---: | :------: | :--------: | :----: | :-------: |
@@ -89,7 +98,7 @@ Creating the Web Server
 In the Network Settings section, edit and fill the below values
 * VPC: Lab-vpc
 * Subnet: Select one of your Public Subnets
-* Firewall (security groups): Select existing security group -> My-Web-SG
+* Firewall (security groups): Select existing security group -> LnxWebSG
 
 Configure storage: Leave everything as it is.
 
@@ -199,16 +208,7 @@ Open the DNS address of your ALB in a browser and notice what it shows. It is no
 
 ### Modify the Security Groups to ensure security on incoming traffic
 
-Update the **My-Web-SG** security group settings as shown below.
-
-#### My-Web-SG
-
-| Type  | Protocol | Port Range | Source |           |
-| :---: | :------: | :--------: | :----: | :-------: |
-| HTTP  |   TCP    |     80     | Custom | My_ALB_SG |
-| HTTPS |   TCP    |    443     | Custom | My_ALB_SG |
-|  SSH  |   TCP    |     22     | Custom | 0.0.0.0/0 |
-
+Change the Security Group on you EC2 instances from **OpenWebSG** to **LnxWebSG** 
 
 You can now try deleting one/more server in order to verify whether the auto scaling feature is able to spin up instances in response. You can also simulate the CPU load on servers by some stress test tool to see scale out action.
 
