@@ -43,21 +43,16 @@ Please explore the three Route Tables that have got created for you. Look at the
 
 Creating Security Groups
 
-Let us now create two different 'Security Groups' for Web server and load balancer. We would leverage them in coming steps.
+Let us now create three different 'Security Groups' for Web server and load balancer. We would leverage them in coming steps.
 In the navigation pane find and click on 'Security Groups'
 
-* Click on 'Create Security Group'
-  * Security group name: LnxWebSG
-  * Description: This SG is to be used for web application servers.
-  * VPC: Lab-vpc
-* Click on Create
-
-Similarly create another security group for your Loadbalancer layer.
-
-Select either of the Security Group now and click on 'Inbound Rules' tab.
-Click on 'Edit Rules' and add rules for incoming traffic on the security groups like mentioned below.
-
 #### OpenWebSG
+
+* Click on 'Create Security Group'
+  * Security group name: OpenWebSG
+  * Description: This SG is to be used for web application servers that are open to web access directly.
+  * VPC: Lab-vpc
+  * Inbound rules: add rules as mentioned below
 
 | Type  | Protocol | Port Range | Source |           |
 | :---: | :------: | :--------: | :----: | :-------: |
@@ -65,6 +60,9 @@ Click on 'Edit Rules' and add rules for incoming traffic on the security groups 
 | HTTPS |   TCP    |    443     | Anywhere-IPv4 | 0.0.0.0/0 |
 |  SSH  |   TCP    |     22     | Anywhere-IPv4 | 0.0.0.0/0 |
 
+ * Click on Create
+
+Similarly create the other two Security Groups as given below.
 
 #### LnxWebSG
 
@@ -91,14 +89,14 @@ We are now going to create an EC2 instance as MyWebServer. Let us switch to EC2 
 Creating the Web Server
 
 * Name: MyWebServer
-* Amazon Machine Image: "Amazon Linux 2" (this should be already selected)
+* Amazon Machine Image: "Amazon Linux 2" 
 * Instance Type: t2.micro
 * Key Pair: Create a new Key Pair -> Key pair name: mykey, leave the rest as default and click on Create Key pair.
 
 In the Network Settings section, edit and fill the below values
 * VPC: Lab-vpc
 * Subnet: Select one of your Public Subnets
-* Firewall (security groups): Select existing security group -> LnxWebSG
+* Firewall (security groups): Select existing security group -> OpenWebSG
 
 Configure storage: Leave everything as it is.
 
@@ -147,10 +145,11 @@ Click on Launch Templates in the side bar and click on Create Launch Template
 - Application and OS Images (Amazon Machine Image): Quick Start -> Amazon Linux 2 (Free tier eligible)
 - Instance type: t2.micro
 - Key pair (login): Select the one you previously created
+- Search and select **LnxWebSG** In the Security groups section under Network settings
 
 Leave all other setting as default and scroll down to Advanced details
 
-**Expand the Advance Details section and paste the previously shared script in the user data section at the bottom.**
+**Expand the Advance Details section and paste the above shared script in the user data section at the bottom.**
 
 - Now click on Create launch template.
 
@@ -182,7 +181,9 @@ Let us create a Load balancer in public subnets, that will divert the traffic to
 Go to the Load Balancing section of EC2 dashboard and click on Target Group
 
 - Create Target Group
+- Choose a target type: Instances
 - Target group name: MyTG
+- Protocol: HTTP and POrt: 80
 - VPC: Lab-vpc
 - Leave rest defaults and click Next.
 - Leave everything on this page unchanged and click Create target group.
@@ -195,20 +196,14 @@ Go to the Load Balancers page and click on Create Load Balancers.
 - Load balancer name: MyALB
 - Scroll down to find the Network mapping section
 - Select the VPC in which you have launched the ASG
-- Select Public Subnets from both AZs. This is a critical step, reconfirm before going forward.
-- Configure Security Settings – Ignore the warning, it is recommending to have SSL certificate.
+- Under Mappings section, select Public Subnets from both AZs. This is a critical step, reconfirm before going forward.
 - Security groups. Select ELBSG from existing ones and remove any other if already selected.
-- Listeners and routing: Leave default HTTP listener and select the MyTG Target Group from the dropdown.
+- Listeners and routing: Keep default HTTP listener and select the MyTG Target Group in the Default action dropdown.
 - Leave rest defaults and Create load balancer
 
 Once on the load balancer dashboard, you should see the DNS endpoint (A record) of your load balancer in Description Tab. ALB takes a little time to come up. Refresh till you see the state as active.
 
 Open the DNS address of your ALB in a browser and notice what it shows. It is now diverting the traffic to both your instances. You can see the behavior of load balancer while you refresh the page and notice the instance ID/IP.
-
-
-### Modify the Security Groups to ensure security on incoming traffic
-
-Change the Security Group on you EC2 instances from **OpenWebSG** to **LnxWebSG** 
 
 You can now try deleting one/more server in order to verify whether the auto scaling feature is able to spin up instances in response. You can also simulate the CPU load on servers by some stress test tool to see scale out action.
 
