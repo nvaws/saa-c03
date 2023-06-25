@@ -82,7 +82,7 @@ Create a lambda function from scratch
 - Runtime: Node.js 16.x  
 - Permissions: Assign the role that you created in the previous step (MyLambdaRole)  
 - Create Function  
-- Edit code inline - delete the existing code in index.js and paste the one here. Update region name (line 5, 13) and table name (line 27) in the code. Save.  
+- Edit code inline - delete the existing code in index.js and paste the code in PutProspectLambdaCode.js from the zip file you downloaded. Update region name (line 5, 13) and table name (line 27) in the code. Deploy.  
 Keep the tab open  
 
 **Activity 06: Creating a REST API using AWS API Gateway to trigger the Lambda function** 
