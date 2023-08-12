@@ -64,6 +64,13 @@ In the navigation pane find and click on 'Security Groups'
 
 Similarly create the other two Security Groups as given below.
 
+#### ELBSG
+
+| Type  | Protocol | Port Range | Source |           |
+| :---: | :------: | :--------: | :----: | :-------: |
+| HTTP  |   TCP    |     80     | Anywhere-IPv4 | 0.0.0.0/0 |
+| HTTPS |   TCP    |    443     | Anywhere-IPv4 | 0.0.0.0/0 |
+
 #### LnxWebSG
 
 | Type  | Protocol | Port Range | Source |           |
@@ -72,12 +79,6 @@ Similarly create the other two Security Groups as given below.
 | HTTPS |   TCP    |    443     | Custom | ELBSG |
 
 
-#### ELBSG
-
-| Type  | Protocol | Port Range | Source |           |
-| :---: | :------: | :--------: | :----: | :-------: |
-| HTTP  |   TCP    |     80     | Anywhere-IPv4 | 0.0.0.0/0 |
-| HTTPS |   TCP    |    443     | Anywhere-IPv4 | 0.0.0.0/0 |
 
 For now, our VPC configuration is complete. The instances launched in our public subnets should have outbound access to Internet and the instances in our private subnet should not. We would verify the same in the next section.
 
