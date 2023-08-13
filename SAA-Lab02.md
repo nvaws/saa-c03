@@ -89,9 +89,7 @@ Keep the tab open
 **Activity 06: Creating a REST API using AWS API Gateway to trigger the Lambda function** 
 
 Go to APIGateway service
-- Get Started  
-- Create API  
-- Choose the protocol: REST  
+Click on "BUILD" in the REST API Section  
 - Create new API: New API  
 - Settings  
 - API Name: NewProspectsAPI  
