@@ -43,7 +43,8 @@ Click on "Create distibution"
 - Select "Legacy access identities"  
 - Click on Create new OAI  
 - Select "Yes, update the bucket policy"  
-- leave everything else as default  
+- leave everything else as default
+- Select "Do not enable security protections" from Web Application Firewall (WAF) section
 - Default root object - optional: index.html  
 
 Click on Create distribution  
