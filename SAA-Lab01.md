@@ -1,6 +1,6 @@
 # Designing Network and Compute architecture for a Highly Available Web Application.
 
-## Lab 01 – Part 01 of 03
+## Lab 01 – Activity 01 of 03
 
 Private networks in AWS are created by the service called Amazon Virtual Private Cloud (VPC). We can create a VPC within any AWS region of our choice and within that VPC we define subnets to manage related sets of servers or other AWS resources. VPC service lets us define rules for how network traffic for our subnets is routed. We can also decide whether our private network (VPC) should be connected to the Internet, to corporate networks or to keep the network completely private.
 
