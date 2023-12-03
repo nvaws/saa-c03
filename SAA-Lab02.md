@@ -1,6 +1,6 @@
 **Activity 01: Creating a static website**  
 
-Downoad this [zip](https://github.com/nvaws/planetup/archive/refs/heads/main.zip) file and unzip the content.  
+Downoad this [zip](https://github.com/nvaws/planetup/archive/refs/heads/main.zip) file and unzip the content.   
 Create a new bucket in any region of your choice  
 Click on the bucket name  
 Click on upload  
