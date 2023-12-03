@@ -95,23 +95,18 @@ Click on "BUILD" in the REST API Section
 - Endpoint Type: Regional  
 - Create API  
 
-You API will get created and you should be in resources section. Click on Actions dropdown and Create Resource 
+You API will get created and you should be in resources section. Click on Create Resource button   
 - Resource Name: prospects
 - Enable API Gateway CORS: yes
 - Create Resource
-- Click again on Actions dropdown and Create Method
-- Select POST and click on the check box to save 
-  
-On the right side of the screen
+- Click on Create Method button
+- Method Type - Select POST and click on the check box to save 
 - Integration type: Lambda Function
-- Use Lambda Proxy integration: yes
-- Lambda Region: Select your region from dropdown
-- Lambda Function: type the name of your Lambda function
-- Save  
+- Enable Lambda Proxy integration switch
+- Lambda Function: Select your region from dropdown and select your lambda function    
+- Create Method  
   
-It will ask your consent for adding permission to Lambda Function, say OK
-
-- Click on Action Dropdown - Deploy API
+- Click on Deploy API button
 - Deployment stage: New Stage
 - Stage name: dev 
 - Deploy
