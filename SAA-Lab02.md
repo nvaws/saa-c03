@@ -91,7 +91,6 @@ Keep the tab open
 Go to APIGateway service
 Click on "BUILD" in the REST API Section  
 - Create new API: New API  
-- Settings  
 - API Name: NewProspectsAPI  
 - Endpoint Type: Regional  
 - Create API  
