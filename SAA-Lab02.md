@@ -103,12 +103,12 @@ You API will get created and you should be in resources section. Click on Create
 - Method Type - Select POST  
 - Integration type: Lambda Function
 - Enable Lambda Proxy integration switch
-- Lambda Function: Select your region from dropdown and select your lambda function    
-- Create Method  
+- Lambda Function: Select your region from dropdown and select your lambda function
+- Create Method
   
 - Click on Deploy API button
 - Deployment stage: New Stage
-- Stage name: dev 
+- Stage name: dev
 - Deploy
 - Go to the Stages section, expand the dev stage and click on POST
 - Copy the Invoke URL
