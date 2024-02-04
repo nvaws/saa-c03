@@ -96,22 +96,22 @@ Click on "BUILD" in the REST API Section
 - Create API  
 
 You API will get created and you should be in resources section. Click on Create Resource button   
-- Resource Name: prospects
-- Enable API Gateway CORS: yes
-- Create Resource
-- Click on Create Method button
+- Resource Name: prospects  
+- Enable API Gateway CORS: yes  
+- Create Resource  
+- Click on Create Method button  
 - Method Type - Select POST  
-- Integration type: Lambda Function
-- Enable Lambda Proxy integration switch
-- Lambda Function: Select your region from dropdown and select your lambda function
+- Integration type: Lambda Function  
+- Enable Lambda Proxy integration switch  
+- Lambda Function: Select your region from dropdown and select your lambda function  
 - Create Method
   
-- Click on Deploy API button
-- Deployment stage: New Stage
-- Stage name: dev
-- Deploy
-- Go to the Stages section, expand the dev stage and click on POST
-- Copy the Invoke URL
+- Click on Deploy API button  
+- Deployment stage: New Stage  
+- Stage name: dev  
+- Deploy  
+- Go to the Stages section, expand the dev stage and click on POST  
+- Copy the Invoke URL  
 
 If you go to your Lambda function page now, you will find that a trigger has been added.
 
