@@ -100,7 +100,7 @@ You API will get created and you should be in resources section. Click on Create
 - Enable API Gateway CORS: yes
 - Create Resource
 - Click on Create Method button
-- Method Type - Select POST and click on the check box to save 
+- Method Type - Select POST  
 - Integration type: Lambda Function
 - Enable Lambda Proxy integration switch
 - Lambda Function: Select your region from dropdown and select your lambda function    
